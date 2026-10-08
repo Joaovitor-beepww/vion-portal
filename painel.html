@@ -25,8 +25,81 @@
         }
     </script>
     <style>
-        body { background-color: #0a0e17; color: #f3f4f6; }
+        /* =======================================================
+           TEMA PREMIUM (SaaS Vion)
+           ======================================================= */
+        body { 
+            background-color: #0a0e17; 
+            color: #f3f4f6;
+            background-image: radial-gradient(circle at top, #192542 0%, #0a0e17 50%, #000000 100%) !important;
+            background-attachment: fixed;
+        }
         .hidden-view { display: none !important; }
+
+        /* Glassmorphism para Sidebar e Modais */
+        .bg-brand-panel {
+            background: rgba(17, 24, 39, 0.35) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8) !important;
+        }
+
+        /* Botões Estilo Premium (Gradiente e Glow) */
+        button.bg-blue-600, .bg-blue-600 {
+            background: linear-gradient(135deg, #2563eb, #6366f1) !important;
+            border: none !important;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3) !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        button.bg-blue-600:hover, .bg-blue-600:hover {
+            background: linear-gradient(135deg, #3b82f6, #818cf8) !important;
+            box-shadow: 0 6px 25px rgba(99, 102, 241, 0.5) !important;
+            transform: translateY(-2px) !important;
+        }
+
+        /* Campos de Texto Modernos */
+        input, select {
+            background: rgba(0, 0, 0, 0.3) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            transition: all 0.3s ease !important;
+            color: #e5e7eb !important;
+        }
+        input:focus, select:focus {
+            border-color: #6366f1 !important;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2) !important;
+            background: rgba(0, 0, 0, 0.6) !important;
+            outline: none !important;
+        }
+
+        /* Cartões de Lista e Tabelas (Renderizados via JS) */
+        .bg-gray-900 {
+            background: rgba(255, 255, 255, 0.03) !important;
+            backdrop-filter: blur(10px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            transition: all 0.3s ease !important;
+        }
+        .bg-gray-900:hover {
+            border-color: rgba(99, 102, 241, 0.3) !important;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5) !important;
+        }
+        
+        .bg-gray-800\/50 {
+            background: rgba(255, 255, 255, 0.015) !important;
+        }
+        .hover\:bg-gray-800\/50:hover {
+            background: rgba(255, 255, 255, 0.04) !important;
+        }
+
+        .border-gray-800 { border-color: rgba(255, 255, 255, 0.08) !important; }
+        .border-gray-700 { border-color: rgba(255, 255, 255, 0.12) !important; }
+
+        /* Títulos com Gradiente */
+        .gradient-text {
+            background: linear-gradient(to right, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
     </style>
 </head>
 <body class="bg-brand-dark antialiased">
@@ -35,8 +108,8 @@
     <div id="login-view" class="min-h-screen flex items-center justify-center bg-brand-dark">
         <div class="bg-brand-panel p-8 rounded-2xl shadow-2xl border border-gray-800 w-full max-w-md">
             <div class="text-center mb-8">
-                <i class="fa-solid fa-play text-blue-500 text-4xl mb-3"></i>
-                <h2 class="text-2xl font-bold text-white">Vion Panel</h2>
+                <i class="fa-solid fa-play text-blue-500 text-4xl mb-3 drop-shadow-[0_0_15px_rgba(59,130,246,0.8)]"></i>
+                <h2 class="text-3xl font-black tracking-tight gradient-text">Vion Panel</h2>
                 <p class="text-gray-400 text-sm mt-1">Faça login para acessar sua conta</p>
             </div>
             <form id="form-login" class="space-y-5">
@@ -68,10 +141,10 @@
     <div id="dashboard-view" class="hidden-view min-h-screen flex">
         
         <!-- Sidebar -->
-        <aside class="w-64 bg-brand-panel border-r border-gray-800 flex flex-col hidden md:flex">
-            <div class="h-24 flex flex-col items-center justify-center border-b border-gray-800">
-                <h1 class="text-xl font-bold text-white"><i class="fa-solid fa-play text-blue-500 mr-2"></i> Vion Panel</h1>
-                <span id="user-role-badge" class="mt-2 bg-gray-800 text-xs text-gray-300 px-2 py-0.5 rounded-full border border-gray-700 font-bold uppercase tracking-wide">Role</span>
+        <aside class="w-64 bg-brand-panel border-r border-gray-800 flex flex-col hidden md:flex relative z-10 shadow-[4px_0_24px_rgba(0,0,0,0.5)]">
+            <div class="h-28 flex flex-col items-center justify-center border-b border-gray-800/50">
+                <h1 class="text-2xl font-black tracking-tight gradient-text drop-shadow-md"><i class="fa-solid fa-play text-blue-500 mr-2 drop-shadow-[0_0_8px_rgba(59,130,246,0.8)]"></i> Vion Panel</h1>
+                <span id="user-role-badge" class="mt-3 bg-gray-800 text-[10px] text-gray-300 px-3 py-1 rounded-full border border-gray-700 font-bold uppercase tracking-widest shadow-lg">Role</span>
             </div>
             <nav class="flex-1 p-4 space-y-2">
                 <button onclick="Painel.switchTab('clientes')" id="tab-clientes" class="w-full flex items-center text-left text-white bg-blue-600/10 text-blue-500 rounded-lg px-4 py-3 font-medium transition-colors">
