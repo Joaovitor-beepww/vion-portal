@@ -31,6 +31,9 @@ const Painel = {
         const session = localStorage.getItem('vion_logged_user');
         if (session) {
             this.loggedUser = JSON.parse(session);
+            this.showDashboard(); // Mantém logado na tela de imediato
+        } else {
+            this.showLogin();
         }
 
         this.startSync();
@@ -60,6 +63,9 @@ const Painel = {
 
         // Sincroniza USUÁRIOS (Revendas e Master)
         db.collection("users").onSnapshot((snap) => {
+            // Proteção contra o primeiro load vazio do Firebase (cache falso)
+            if (snap.empty && snap.metadata.fromCache) return; 
+
             this.db.users = snap.docs.map(d => ({ id: d.id, ...d.data() }));
             
             if (this.loggedUser && !this.db.users.find(u => u.id === this.loggedUser.id)) {
