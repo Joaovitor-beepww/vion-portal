@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <base href="/portal/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vion Player - Official Web Portal</title>
+  <link rel="icon" type="image/png" href="/portal/img/logo.png">
+  <link rel="stylesheet" href="/portal/css/style.css">
+</head>
+<body>
+
+  <!-- Barra Superior de Notificação (Idêntica ao topo laranja/âmbar das imagens) -->
+  <a href="https://t.me/" target="_blank" class="top-notice-bar">
+    <span>📢 Junte-se à nossa comunidade do Telegram</span>
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+    </svg>
+  </a>
+
+  <!-- Efeito de Luz Radial de Fundo -->
+  <div class="bg-glow-spotlight"></div>
+
+  <!-- Barra de Navegação Superior -->
+  <header class="navbar">
+    <a href="#home" class="brand-logo" onclick="switchTab('home')">
+      <img src="/portal/img/logo.png" alt="Vion Player Logo" class="brand-logo-img">
+      <div class="brand-text">VION <span>PLAYER</span></div>
+    </a>
+
+    <nav>
+      <ul class="nav-links">
+        <li><a class="nav-link active" data-tab="home" href="#home">Home</a></li>
+        <li><a class="nav-link" data-tab="login" href="#login">Enviar Playlist</a></li>
+        <li><a class="nav-link nav-link-badge" data-tab="activation" href="#activation">Preços</a></li>
+        <li><a class="nav-link" data-tab="reseller" href="#reseller">Seja um Revendedor</a></li>
+      </ul>
+    </nav>
+
+    <div class="nav-right">
+      <!-- Botão Entrar (Visível quando deslogado) -->
+      <a href="#login" id="btn-nav-login" class="btn-nav-login">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+          <polyline points="10 17 15 12 10 7"></polyline>
+          <line x1="15" y1="12" x2="3" y2="12"></line>
+        </svg>
+        <span>Entrar</span>
+      </a>
+
+      <!-- Botão Sair (Visível quando logado) -->
+      <button id="btn-nav-logout" class="btn-nav-logout">
+        <span>Sair</span>
+      </button>
+
+      <select class="lang-select">
+        <option value="pt" selected>🇧🇷 Português</option>
+        <option value="en">🇺🇸 English</option>
+        <option value="es">🇪🇸 Español</option>
+      </select>
+    </div>
+
+    <!-- Botão Hamburger Mobile -->
+    <button type="button" id="btn-mobile-toggle" class="btn-mobile-toggle" aria-label="Abrir Menu">
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+      <span class="hamburger-bar"></span>
+    </button>
+  </header>
+
+  <!-- Menu Gaveta Mobile (Drawer) -->
+  <div id="mobile-nav-drawer" class="mobile-nav-drawer">
+    <div class="mobile-drawer-header">
+      <div class="brand-text">VION <span>PLAYER</span></div>
+      <button type="button" id="btn-mobile-close" class="btn-mobile-close" aria-label="Fechar Menu">&times;</button>
+    </div>
+    <ul class="mobile-nav-links">
+      <li><a class="mobile-nav-link active" data-tab="home" href="#home"><span>🏠</span> Início (Home)</a></li>
+      <li><a class="mobile-nav-link" data-tab="login" href="#login"><span>📤</span> Enviar Playlist</a></li>
+      <li><a class="mobile-nav-link highlight" data-tab="activation" href="#activation"><span>💎</span> Preços & Ativação</a></li>
+      <li><a class="mobile-nav-link" data-tab="reseller" href="#reseller"><span>🤝</span> Seja um Revendedor</a></li>
+      <li><a class="mobile-nav-link" data-tab="login" href="#login" id="mobile-btn-login"><span>🔑</span> Entrar na TV</a></li>
+    </ul>
+    <div class="mobile-drawer-footer">
+      <select class="lang-select mobile-lang-select">
+        <option value="pt" selected>🇧🇷 Português</option>
+        <option value="en">🇺🇸 English</option>
+        <option value="es">🇪🇸 Español</option>
+      </select>
+    </div>
+  </div>
+  <div id="mobile-nav-overlay" class="mobile-nav-overlay"></div>
+
+  <!-- Conteúdo Principal -->
+  <main class="main-wrapper">
+
+    <!-- ===================================================================
+         1. ABA: HOME (Hero Principal)
+         =================================================================== -->
+    <section id="section-home" class="tab-section active">
+      <div class="hero-content">
+        <div class="hero-logo-wrap">
+          <img src="/portal/img/logo.png" alt="Vion Player Logo Oficial" class="hero-logo-img">
+        </div>
+
+        <h1 class="hero-title">
+          Filmes, séries e TV ao vivo com a melhor experiência na sua Smart TV.
+        </h1>
+        <p class="hero-subtitle">
+          Compatível com Samsung, LG, Android TV e Fire TV Stick.
+        </p>
+        <p class="hero-desc">
+          Pronto para assistir? Ative seu aplicativo instantaneamente via PIX ou conecte com o Endereço MAC da TV para gerenciar suas listas de reprodução.
+        </p>
+
+        <div class="hero-buttons">
+          <button id="btn-hero-activate" class="btn btn-gold">⚡ ATIVAR APLICATIVO</button>
+          <button id="btn-hero-upload" class="btn btn-outline">📋 GERENCIAR PLAYLISTS</button>
+        </div>
+
+        <div class="hero-platforms">
+          <span class="platforms-label">Disponível para as melhores marcas:</span>
+          <div class="platform-chips">
+            <div class="platform-chip">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect><polyline points="17 2 12 7 7 2"></polyline></svg>
+              <span>Samsung Tizen</span>
+            </div>
+            <div class="platform-chip">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+              <span>LG webOS</span>
+            </div>
+            <div class="platform-chip">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-1.0001s.4482-.9999.9993-.9999c.5518 0 1.0001.4484 1.0001.9999s-.4483 1.0001-1.0001 1.0001m-11.046 0c-.5511 0-.9993-.4486-.9993-1.0001s.4482-.9999.9993-.9999c.5518 0 1.0001.4484 1.0001.9999s-.4483 1.0001-1.0001 1.0001m11.4045-6.02l1.9973-3.4592a.416.416 0 00-.1521-.5676.416.416 0 00-.5682.1522l-2.0223 3.503C15.5873 8.3585 13.8559 8 12 8s-3.5873.3585-5.1362.9507L4.8415 5.4478a.416.416 0 00-.5682-.1522.416.416 0 00-.1521.5676l1.9973 3.4592C2.6889 10.9867 0 14.7744 0 19.1678h24c0-4.3934-2.6889-8.1811-6.1185-9.8464"/></svg>
+              <span>Android TV & TV Box</span>
+            </div>
+            <div class="platform-chip">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path></svg>
+              <span>Fire TV Stick</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         2. ABA: ENTRAR (LOGIN DE DISPOSITIVO - Idêntica à Imagem 1)
+         =================================================================== -->
+    <section id="section-login" class="tab-section">
+      <div class="login-card">
+        <h2>Entrar</h2>
+
+        <form id="login-form">
+          <div class="form-group">
+            <label>Endereço Mac</label>
+            <input type="text" id="login-mac-input" placeholder="2c:99:75:f0:36:41" maxlength="17" required autocomplete="off">
+            <div id="mac-validation-feedback" class="input-feedback"></div>
+          </div>
+
+          <div class="form-group">
+            <label>Chave do Dispositivo</label>
+            <input type="text" id="login-key-input" placeholder="Ex: 3530" maxlength="6" required autocomplete="off">
+          </div>
+
+          <button type="submit" class="btn btn-gold" style="width: 100%; margin-top: 15px;">
+            ENTRAR
+          </button>
+
+          <div id="login-alert" class="alert-box"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         3. ABA: GERENCIAR PLAYLISTS (Idêntica à Imagem 2 do TiviPlayer)
+         =================================================================== -->
+    <section id="section-manage-playlists" class="tab-section">
+      <div class="manage-card">
+        
+        <div class="manage-header">
+          <h2>Gerenciar playlists</h2>
+          <div class="connected-badge">
+            <span style="display:inline-block; width:8px; height:8px; background:var(--success); border-radius:50%;"></span>
+            <span id="connected-mac-display">00:00:00:00:00:00</span>
+          </div>
+        </div>
+
+        <!-- Lista dinâmica de playlists (NI1, NI3, etc.) -->
+        <div id="playlists-container" class="playlist-items-list">
+          <!-- Injetado dinamicamente via portal.js -->
+        </div>
+
+        <button id="btn-open-add-modal" class="btn-add-playlist">
+          <span>+</span> Adicionar Playlists
+        </button>
+
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         4. ABA: PREÇOS & ATIVAÇÃO DE LICENÇA
+         =================================================================== -->
+    <section id="section-activation" class="tab-section">
+      <div class="portal-card" style="max-width: 850px;">
+        <h2>Ativação do Vion Player</h2>
+        <p class="card-desc">Consulte a situação do seu aparelho ou ative a sua licença definitiva.</p>
+
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <div>
+              <div class="plan-name">Teste Grátis</div>
+              <div class="plan-price">GRÁTIS <span>/ 7 dias</span></div>
+              <ul class="plan-features">
+                <li>✓ Reprodução Full HD & 4K</li>
+                <li>✓ Guia de Programação (EPG)</li>
+                <li>✓ Múltiplas faixas de áudio</li>
+                <li>✓ Sem cartão de crédito</li>
+              </ul>
+            </div>
+            <button class="btn btn-outline" style="width: 100%;">Ativo na TV</button>
+          </div>
+
+          <div class="pricing-card featured">
+            <div>
+              <div style="background: var(--primary-gold); color: #000; font-size: 11px; font-weight: 900; padding: 3px 8px; border-radius: 4px; display: inline-block; margin-bottom: 10px;">
+                MAIS POPULAR
+              </div>
+              <div class="plan-name">Licença Vitalícia</div>
+              <div class="plan-price">R$ 30,00 <span>/ pagamento único</span></div>
+              <ul class="plan-features">
+                <li>✓ Ativação permanente</li>
+                <li>✓ Atualizações gratuitas</li>
+                <li>✓ Suporte técnico prioritário</li>
+                <li>✓ Transferível para nova TV</li>
+              </ul>
+            </div>
+            <button type="button" class="btn btn-gold" onclick="openDevicePaymentModal('vitalicio', 30, 'Licença Vitalícia')" style="width: 100%;">ATIVAR VITALÍCIA</button>
+          </div>
+
+          <div class="pricing-card">
+            <div>
+              <div class="plan-name">Licença Anual</div>
+              <div class="plan-price">R$ 20,00 <span>/ 12 meses</span></div>
+              <ul class="plan-features">
+                <li>✓ Acesso total por 1 ano</li>
+                <li>✓ Todas as funções inclusas</li>
+                <li>✓ Renovável a qualquer momento</li>
+              </ul>
+            </div>
+            <button type="button" class="btn btn-outline" onclick="openDevicePaymentModal('anual', 20, 'Licença Anual')" style="width: 100%;">ATIVAR 1 ANO</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================================================================
+         5. ABA: SEJA UM REVENDEDOR / PAINEL DO REVENDEDOR
+         =================================================================== -->
+        <section id="section-reseller" class="tab-section">
+
+      <!-- ===============================================================
+           5.1 FLUXO DE CADASTRO: TORNE-SE UM PARCEIRO (IMAGENS 1 E 2)
+           =============================================================== -->
+      <div id="partner-register-flow" class="partner-flow-box">
+        <button type="button" class="btn-reseller-back-portal" onclick="switchTab('home')" title="Voltar ao Portal Principal">
+          ← Voltar ao Portal
+        </button>
+
+        <div class="partner-header-bar">
+          <span class="partner-header-tag">Revendedor</span>
+          <button type="button" id="btn-goto-login-from-reg" class="btn-link-login-top">
+            Já sou parceiro • Entrar ➔
+          </button>
+        </div>
+
+        <!-- Indicador de Etapas (Círculos 1 e 2) -->
+        <div class="step-wizard-indicator">
+          <div id="step-circle-1" class="step-bubble active">1</div>
+          <div class="step-bubble-line"></div>
+          <div id="step-circle-2" class="step-bubble">2</div>
+        </div>
+
+        <h2 class="partner-form-title">TORNE-SE UM PARCEIRO</h2>
+        <a href="#partner-info" id="link-partner-info" class="partner-info-link">Mais informações sobre parceiros</a>
+
+        <!-- ETAPA 1 (Imagem 1) -->
+        <form id="partner-reg-step1" class="partner-step-form active">
+          <div class="partner-underline-group">
+            <input type="text" id="reg-company" placeholder="Nome da empresa" required autocomplete="organization">
+          </div>
+
+          <div class="partner-underline-group">
+            <input type="text" id="reg-first-name" placeholder="Nome" required autocomplete="given-name">
+          </div>
+
+          <div class="partner-underline-group">
+            <input type="text" id="reg-last-name" placeholder="Sobrenome" required autocomplete="family-name">
+          </div>
+
+          <div class="partner-underline-group">
+            <input type="email" id="reg-email" placeholder="E-mail" required autocomplete="email">
+          </div>
+
+          <div class="partner-underline-group password-group">
+            <input type="password" id="reg-password" placeholder="Digite sua senha" required autocomplete="new-password">
+            <button type="button" class="btn-toggle-password" data-target="reg-password" title="Ver senha">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+
+          <div id="reg-step1-alert" class="alert-box"></div>
+
+          <div class="partner-action-wrap">
+            <button type="submit" id="btn-reg-next" class="btn-partner-pill">
+              PRÓXIMO
+            </button>
+          </div>
+
+          <div class="partner-bottom-switch">
+            <span>Já possui uma conta de revendedor?</span>
+            <a href="#login-revenda" id="link-switch-to-login">Entrar no Painel do Revendedor</a>
+          </div>
+        </form>
+
+        <!-- ETAPA 2 (Imagem 2) -->
+        <form id="partner-reg-step2" class="partner-step-form" style="display: none;">
+          <div class="partner-underline-group select-group">
+            <select id="reg-country" required>
+              <option value="Brasil" selected>Brasil</option>
+              <option value="Estados Unidos">Estados Unidos</option>
+              <option value="Portugal">Portugal</option>
+              <option value="Argentina">Argentina</option>
+              <option value="Espanha">Espanha</option>
+              <option value="Reino Unido">Reino Unido</option>
+              <option value="Outro">Outro país</option>
+            </select>
+            <span class="select-arrow">⌄</span>
+          </div>
+
+          <div class="partner-underline-group">
+            <input type="text" id="reg-address" placeholder="Endereço" required autocomplete="street-address">
+          </div>
+
+          <!-- Telefone com seletor de DDI -->
+          <div class="partner-phone-row">
+            <div class="phone-country-box">
+              <span id="phone-flag-icon">🇧🇷</span>
+              <select id="reg-phone-code" class="phone-code-select">
+                <option value="+55" selected>+55</option>
+                <option value="+1">+1</option>
+                <option value="+351">+351</option>
+                <option value="+34">+34</option>
+                <option value="+54">+54</option>
+              </select>
+            </div>
+            <div class="partner-underline-group phone-number-input">
+              <input type="tel" id="reg-phone-number" placeholder="Telefone / WhatsApp" required autocomplete="tel">
+            </div>
+          </div>
+
+          <!-- Tipo de parceiro -->
+          <div class="partner-check-section">
+            <p class="partner-check-title">Tipo de Parceria</p>
+            <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 8px; padding: 12px 14px; font-size: 13.5px; color: #fbbf24; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+              <span>⚡</span> Revendedor Oficial (Compra de créditos e ativação direta de telas)
+            </div>
+          </div>
+
+          <!-- Termos e políticas -->
+          <div class="partner-check-section">
+            <p class="partner-check-title">Aceitar política de privacidade e uso</p>
+            <label class="partner-custom-checkbox">
+              <input type="checkbox" id="check-partner-terms" checked required>
+              <span class="checkmark"></span>
+              <span>Concordo com todos</span>
+            </label>
+          </div>
+
+          <div id="reg-step2-alert" class="alert-box"></div>
+
+          <div class="partner-action-wrap">
+            <button type="submit" id="btn-reg-submit" class="btn-partner-pill">
+              REGISTRAR
+            </button>
+          </div>
+
+          <div class="partner-bottom-switch">
+            <button type="button" id="btn-back-to-step1" class="btn-link-back">
+              ← Voltar para etapa anterior
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ===============================================================
+           5.2 GUIA DE LOGIN DO REVENDEDOR (IMAGEM 3 - CINEMA LIVING ROOM)
+           =============================================================== -->
+      <div id="reseller-cinema-login" class="cinema-login-wrap" style="display: none;">
+        <!-- Botão Voltar ao Portal Principal -->
+        <button type="button" class="btn-reseller-back-portal" onclick="switchTab('home')" title="Voltar ao Portal Principal">
+          ← Voltar ao Portal
+        </button>
+
+        <div class="cinema-login-backdrop">
+          <img src="/portal/img/reseller-bg.jpg?v=2" alt="Living Room Cinema" class="cinema-bg-img">
+        </div>
+
+        <div class="cinema-login-card">
+          <div class="cinema-card-logo">
+            <img src="/portal/img/logo.png" alt="Vion Player" class="cinema-logo-img">
+          </div>
+
+          <form id="cinema-login-form">
+            <div class="cinema-input-box">
+              <span class="input-icon">👤</span>
+              <input type="text" id="cinema-user-input" placeholder="Username / E-mail" required autocomplete="username">
+            </div>
+
+            <div class="cinema-input-box">
+              <span class="input-icon">🔒</span>
+              <input type="password" id="cinema-pass-input" placeholder="Password" required autocomplete="current-password">
+              <button type="button" class="btn-toggle-password" data-target="cinema-pass-input" title="Ver senha">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+            </div>
+
+            <div class="cinema-forgot-row">
+              <a href="#" id="cinema-link-forgot" class="cinema-forgot-link">Forgot password</a>
+            </div>
+
+            <div id="cinema-login-alert" class="alert-box"></div>
+
+            <button type="submit" class="btn-cinema-login">
+              <span>➔</span> Login
+            </button>
+
+            <div class="cinema-register-prompt">
+              <span>Não tem uma conta?</span>
+              <a href="#" id="link-goto-register-from-login">Torne-se um parceiro</a>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ===============================================================
+           5.3 PAINEL DO REVENDEDOR (IMAGENS 4 E 5)
+           =============================================================== -->
+      <div id="reseller-panel-container" class="reseller-hub-layout" style="display: none;">
+        
+        <!-- Topbar idêntica à Imagem 4 & 5 -->
+        <header class="hub-topbar">
+          <div class="hub-topbar-left">
+            <button type="button" id="btn-hub-hamburger" class="hub-hamburger-btn" title="Menu lateral">
+              ☰
+            </button>
+            <div class="hub-brand">
+              <img src="/portal/img/logo.png" alt="Vion Player" class="hub-brand-logo">
+              <span class="hub-brand-title">VION <span>PLAYER</span></span>
+            </div>
+          </div>
+
+          <div class="hub-topbar-right">
+            <!-- Bandeira do país -->
+            <span class="hub-flag-badge" id="hub-flag-badge" title="País">🇧🇷</span>
+
+            <!-- Ícone de Carteira -->
+            <span class="hub-wallet-icon" title="Carteira">💼</span>
+
+            <div class="hub-divider"></div>
+
+            <!-- Avatar + Nome + Dropdown Trigger -->
+            <div class="hub-user-pill-wrap" id="hub-user-dropdown-trigger">
+              <div class="hub-avatar-circle">
+                <span class="avatar-icon">👤</span>
+              </div>
+              <span id="hub-user-display-name" class="hub-user-name">João Vitor</span>
+
+              <div class="hub-divider"></div>
+
+              <!-- Saldo de Créditos no Topo -->
+              <div class="hub-top-credits">
+                <span>Crédito - <strong id="hub-credits-val">0</strong></span>
+                <button type="button" id="btn-hub-refresh-credits" class="hub-refresh-icon-btn" title="Atualizar saldo">
+                  🔄
+                </button>
+              </div>
+
+              <!-- Menu Dropdown Flutuante (Imagem 5) -->
+              <div id="hub-user-dropdown-menu" class="hub-dropdown-menu">
+                <button type="button" class="dropdown-item" id="menu-buy-credits">
+                  <span class="item-icon">⚡</span> Compre mais créditos
+                </button>
+                <button type="button" class="dropdown-item" id="menu-edit-profile">
+                  <span class="item-icon">👤</span> Editar perfil
+                </button>
+                <div class="dropdown-divider"></div>
+                <button type="button" class="dropdown-item danger" id="menu-logout">
+                  <span class="item-icon">↪️</span> Sair
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Corpo Principal: Sidebar + Conteúdo -->
+        <div class="hub-body-grid">
+          
+          <!-- Sidebar Lateral Preta (Imagem 4 & Imagem 3 colapsada) -->
+          <aside id="hub-sidebar" class="hub-sidebar">
+            <!-- Cabeçalho exclusivo para a gaveta mobile -->
+            <div class="hub-drawer-mobile-header">
+              <div class="hub-drawer-brand">
+                <img src="/portal/img/logo.png" alt="Vion Player" class="hub-drawer-logo">
+                <span class="hub-drawer-brand-title">VION <span>PLAYER</span></span>
+              </div>
+              <button type="button" id="btn-close-mobile-drawer" class="hub-drawer-close-btn" aria-label="Fechar menu" title="Fechar menu">✕</button>
+            </div>
+
+            <nav class="hub-nav-menu">
+              <button type="button" class="hub-nav-btn active" data-sub="dashboard" title="Painel">
+                <span class="nav-icon">📊</span> <span class="nav-text">Painel</span>
+              </button>
+              <button type="button" class="hub-nav-btn" data-sub="devices" title="Dispositivos">
+                <span class="nav-icon">📱</span> <span class="nav-text">Dispositivos</span>
+              </button>
+              <button type="button" class="hub-nav-btn" data-sub="credits-history" title="Histórico de créditos">
+                <span class="nav-icon">💳</span> <span class="nav-text">Histórico de créditos</span>
+              </button>
+              <button type="button" class="hub-nav-btn" data-sub="subs" title="Meus revendedores">
+                <span class="nav-icon">👥</span> <span class="nav-text">Meus revendedores</span>
+              </button>
+              <!-- Exclusivo Administrador Geral -->
+              <button type="button" class="hub-nav-btn master-only" id="hub-nav-partners" data-sub="partnerships" style="display: none;" title="Códigos de Parceria">
+                <span class="nav-icon">🤝</span> <span class="nav-text">Códigos de Parceria</span>
+              </button>
+              <!-- Voltar ao Portal do Usuário -->
+              <button type="button" class="hub-nav-btn btn-hub-return-portal" id="hub-nav-back-portal" onclick="switchTab('home')" title="Voltar ao Portal">
+                <span class="nav-icon">🏠</span> <span class="nav-text">Voltar ao Portal</span>
+              </button>
+            </nav>
+
+            <div class="hub-sidebar-footer">
+              <p class="support-text">Suporte & Atendimento</p>
+              <a href="mailto:joaovitordc1010@gmail.com" class="support-mail-btn" title="joaovitordc1010@gmail.com">
+                <span>✉️</span> <span class="support-mail-text">Falar com Suporte</span>
+              </a>
+              <span class="version-tag">Painel do Revendedor • v1.0.0</span>
+            </div>
+          </aside>
+
+          <!-- Conteúdo Principal das Sub-Abas -->
+          <main class="hub-main-stage">
+
+            <!-- =========================================================
+                 SUB-ABA 1: PAINEL / DASHBOARD (IMAGEM 4)
+                 ========================================================= -->
+            <div id="hub-sub-dashboard" class="hub-sub-content active">
+              
+              <!-- Títulos do Painel -->
+              <div class="hub-title-row">
+                <div>
+                  <h1 class="hub-main-title">Painel</h1>
+                  <h2 class="hub-main-subtitle">Revendedor</h2>
+                </div>
+                <div class="hub-quick-actions">
+                  <button type="button" id="btn-hero-buy-credits" class="btn-hub-action-gold">
+                    <span>⚡</span> Compre mais créditos diretamente aqui
+                  </button>
+                </div>
+              </div>
+
+              <!-- Grid de 5 Cards Pretos Sofisticados (Imagem 4) -->
+              <div class="hub-cards-grid">
+                
+                <!-- Card 1: Ativações -->
+                <div class="hub-black-card">
+                  <div class="card-head-title">Ativações</div>
+                  <div class="card-stats-rows">
+                    <div class="stat-line">
+                      <span>Total :</span>
+                      <strong id="card-act-total">0</strong>
+                    </div>
+                    <div class="stat-line-double">
+                      <div class="stat-item">
+                        <span id="card-act-month-name">Outubro :</span>
+                        <strong id="card-act-month">0</strong>
+                      </div>
+                      <div class="stat-item right">
+                        <span>Hoje :</span>
+                        <strong id="card-act-today">0</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 2: Crédito -->
+                <div class="hub-black-card">
+                  <div class="card-head-title">Crédito</div>
+                  <div class="card-stats-rows">
+                    <div class="stat-line">
+                      <span>Total :</span>
+                      <strong id="card-cred-total">0</strong>
+                    </div>
+                    <div class="stat-line-double">
+                      <div class="stat-item">
+                        <span id="card-cred-month-name">Outubro :</span>
+                        <strong id="card-cred-month">0</strong>
+                      </div>
+                      <div class="stat-item right">
+                        <span>Hoje :</span>
+                        <strong id="card-cred-today">0</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 3: Sub-revendedor -->
+                <div class="hub-black-card">
+                  <div class="card-head-title">Sub-revendedor</div>
+                  <div class="card-stats-rows">
+                    <div class="stat-line">
+                      <span>Total :</span>
+                      <strong id="card-sub-total">0</strong>
+                    </div>
+                    <div class="stat-line-double">
+                      <div class="stat-item">
+                        <span id="card-sub-month-name">Outubro :</span>
+                        <strong id="card-sub-month">0</strong>
+                      </div>
+                      <div class="stat-item right">
+                        <span>Hoje :</span>
+                        <strong id="card-sub-today">0</strong>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- =========================================================
+                 SUB-ABA 2: DISPOSITIVOS (ATIVAR E LISTAR)
+                 ========================================================= -->
+            <div id="hub-sub-devices" class="hub-sub-content">
+              <div class="hub-section-header">
+                <h2>Gerenciar Dispositivos</h2>
+                <button type="button" id="btn-hub-open-activate" class="btn-hub-action-gold">
+                  <span>+</span> Ativar Dispositivo
+                </button>
+              </div>
+
+              <div class="hub-search-bar-row">
+                <input type="text" id="input-hub-search-devices" placeholder="Buscar por MAC ou nome do cliente..." class="hub-search-input">
+                <button type="button" id="btn-hub-reload-devices" class="hub-circle-btn" title="Recarregar">🔄</button>
+              </div>
+
+              <div class="hub-table-wrapper">
+                <table class="hub-table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Endereço MAC</th>
+                      <th>Cliente / Nota</th>
+                      <th>Plano</th>
+                      <th>Status</th>
+                      <th style="text-align: right;">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="hub-devices-tbody">
+                    <!-- Dinâmico -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- =========================================================
+                 SUB-ABA 3: HISTÓRICO DE CRÉDITOS
+                 ========================================================= -->
+            <div id="hub-sub-credits-history" class="hub-sub-content">
+              <div class="hub-section-header">
+                <h2>Histórico de Créditos</h2>
+                <button type="button" id="btn-history-buy-more" class="btn-hub-action-gold">
+                  <span>⚡</span> Comprar Mais Créditos
+                </button>
+              </div>
+
+              <div class="hub-table-wrapper">
+                <table class="hub-table">
+                  <thead>
+                    <tr>
+                      <th>Data / Hora</th>
+                      <th>Operação</th>
+                      <th>Descrição</th>
+                      <th>Créditos</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="hub-credits-history-tbody">
+                    <!-- Dinâmico -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- =========================================================
+                 SUB-ABA 4: MEUS REVENDEDORES
+                 ========================================================= -->
+            <div id="hub-sub-subs" class="hub-sub-content">
+              <div class="hub-section-header">
+                <h2>Meus Sub-revendedores</h2>
+                <button type="button" id="btn-hub-open-add-sub" class="btn-hub-action-gold">
+                  <span>+</span> Adicionar Sub-revendedor
+                </button>
+              </div>
+
+              <div class="hub-table-wrapper">
+                <table class="hub-table">
+                  <thead>
+                    <tr>
+                      <th>Nome</th>
+                      <th>E-mail</th>
+                      <th>Telefone</th>
+                      <th>Créditos</th>
+                      <th>Data</th>
+                      <th style="text-align: right;">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="hub-subs-tbody">
+                    <!-- Dinâmico -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- =========================================================
+                 SUB-ABA 7: CÓDIGOS DE PARCERIA (ADMIN MASTER)
+                 ========================================================= -->
+            <div id="hub-sub-partnerships" class="hub-sub-content">
+              <div class="hub-section-header">
+                <div>
+                  <h2>Códigos de Parceria</h2>
+                  <p style="font-size: 13px; color: var(--text-muted); margin-top: 4px;">
+                    Área exclusiva do Administrador Geral. Crie, ative, desative ou exclua os códigos de parceria (Ex: TOURO) que conectam servidores Xtream diretamente na TV.
+                  </p>
+                </div>
+              </div>
+
+              <!-- Card de Cadastro de Novo Código -->
+              <div class="hub-admin-card" style="margin-bottom: 24px; padding: 22px;">
+                <div style="font-size: 15px; font-weight: 700; color: #111827; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                  <span>➕</span> Cadastrar Novo Código de Parceria
+                </div>
+                <form id="portal-form-create-partner" class="partner-create-grid">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label style="font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; display: block;">CÓDIGO (SIGLA)</label>
+                    <input type="text" id="portal-partner-code" placeholder="Ex: TOURO" required style="text-transform: uppercase;">
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label style="font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; display: block;">SERVIDOR / DNS XTREAM</label>
+                    <input type="text" id="portal-partner-server" placeholder="Ex: http://projetotourov2.pro" required>
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label style="font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; display: block;">NOME DO PARCEIRO (OPCIONAL)</label>
+                    <input type="text" id="portal-partner-name" placeholder="Ex: Projeto Touro">
+                  </div>
+                  <button type="submit" class="btn btn-gold" style="white-space: nowrap; height: 42px; padding: 0 24px;">
+                    <span>💾</span> Salvar Código
+                  </button>
+                </form>
+              </div>
+
+              <!-- Card de Configuração do Mercado Pago (Admin Master) -->
+              <div class="hub-admin-card" style="margin-bottom: 24px; padding: 22px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+                  <div style="font-size: 15px; font-weight: 700; color: #111827; display: flex; align-items: center; gap: 8px;">
+                    <span>💳</span> Integração Mercado Pago (PIX Automático)
+                  </div>
+                  <div id="mp-admin-status-badge" style="font-size: 12px; padding: 4px 12px; border-radius: 20px; font-weight: 700; background: #fee2e2; color: #dc2626;">
+                    🔴 Não Configurado
+                  </div>
+                </div>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+                  Insira o seu <strong>Access Token</strong> de Produção do Mercado Pago para que o PIX gere cobranças reais e libere os créditos automaticamente para você e seus revendedores.
+                  <a href="https://www.mercadopago.com.br/developers/panel/app" target="_blank" style="color: #f59e0b; text-decoration: underline; margin-left: 4px;">Onde pegar o token?</a>
+                </p>
+                <form id="portal-form-mp-settings" style="display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;">
+                  <div class="form-group" style="flex: 1; min-width: 280px; margin-bottom: 0;">
+                    <label style="font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; display: block;">ACCESS TOKEN (PRODUÇÃO)</label>
+                    <input type="password" id="portal-mp-access-token" placeholder="APP_USR-..." autocomplete="off">
+                  </div>
+                  <button type="submit" class="btn btn-gold" id="btn-save-mp-settings" style="white-space: nowrap; height: 42px; padding: 0 24px;">
+                    <span>💾</span> Salvar Credencial
+                  </button>
+                </form>
+              </div>
+
+              <!-- Card de Notificações no Celular (Telegram & WhatsApp) -->
+              <div class="hub-admin-card" style="margin-bottom: 24px; padding: 22px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; flex-wrap: wrap; gap: 10px;">
+                  <div style="font-size: 15px; font-weight: 700; color: #111827; display: flex; align-items: center; gap: 8px;">
+                    <span>📲</span> Alertas no Celular de Novos Parceiros (Telegram & WhatsApp)
+                  </div>
+                  <div id="notify-admin-status-badge" style="font-size: 12px; padding: 4px 12px; border-radius: 20px; font-weight: 700; background: #fee2e2; color: #dc2626;">
+                    🔴 Notificações Desativadas
+                  </div>
+                </div>
+                <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">
+                  Receba uma notificação instantânea no seu celular com os dados do revendedor (Nome, WhatsApp, E-mail, Empresa) assim que ele concluir o cadastro!
+                </p>
+
+                <form id="portal-form-notify-settings" style="display: flex; flex-direction: column; gap: 16px;">
+                  <!-- Telegram -->
+                  <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px;">
+                    <div style="font-size: 13px; font-weight: 700; color: #0284c7; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+                      <span>✈️</span> Opção 1: Telegram Bot (100% Gratuito & Push Instantâneo)
+                    </div>
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                      <div class="form-group" style="flex: 1; min-width: 220px; margin-bottom: 0;">
+                        <label style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; display: block;">BOT TOKEN (Ex: 123456:ABC-DEF...)</label>
+                        <div style="position: relative; display: flex; align-items: center;">
+                          <input type="password" id="portal-tg-bot-token" placeholder="Bot Token do @BotFather" autocomplete="off" spellcheck="false" style="padding-right: 42px; font-family: monospace;">
+                          <button type="button" id="btn-toggle-tg-token" style="position: absolute; right: 10px; background: none; border: none; cursor: pointer; font-size: 16px; opacity: 0.7; padding: 4px;" title="Mostrar / Ocultar Token">👁️</button>
+                        </div>
+                      </div>
+                      <div class="form-group" style="flex: 1; min-width: 180px; margin-bottom: 0;">
+                        <label style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; display: block;">SEU CHAT ID (Ex: 987654321)</label>
+                        <input type="text" id="portal-tg-chat-id" placeholder="Chat ID do @userinfobot" autocomplete="off" style="font-family: monospace;">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- CallMeBot WhatsApp -->
+                  <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px;">
+                    <div style="font-size: 13px; font-weight: 700; color: #16a34a; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;">
+                      <span>💬</span> Opção 2: CallMeBot WhatsApp (Mensagem Direta no seu WhatsApp)
+                    </div>
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+                      <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
+                        <label style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; display: block;">SEU NÚMERO COM DDI (Ex: +5511999999999)</label>
+                        <input type="text" id="portal-cmb-phone" placeholder="+5511999999999" autocomplete="off">
+                      </div>
+                      <div class="form-group" style="flex: 1; min-width: 200px; margin-bottom: 0;">
+                        <label style="font-size: 11px; font-weight: 700; color: var(--text-muted); margin-bottom: 4px; display: block;">API KEY CALLMEBOT (Chave gratuita)</label>
+                        <div style="position: relative; display: flex; align-items: center;">
+                          <input type="password" id="portal-cmb-apikey" placeholder="Sua API Key do CallMeBot" autocomplete="off" spellcheck="false" style="padding-right: 42px; font-family: monospace;">
+                          <button type="button" id="btn-toggle-cmb-key" style="position: absolute; right: 10px; background: none; border: none; cursor: pointer; font-size: 16px; opacity: 0.7; padding: 4px;" title="Mostrar / Ocultar Chave">👁️</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="hub-form-btn-group">
+                    <button type="submit" class="btn btn-gold" id="btn-save-notify-settings">
+                      <span>💾</span> Salvar Configurações de Notificação
+                    </button>
+                    <button type="button" class="btn btn-secondary" id="btn-test-notify">
+                      <span>📲</span> Enviar Notificação de Teste
+                    </button>
+                  </div>
+                </form>
+              </div>
+
+              <!-- Tabela de Códigos de Parceria -->
+              <div class="hub-table-wrapper">
+                <table class="hub-table">
+                  <thead>
+                    <tr>
+                      <th style="width: 140px;">Código</th>
+                      <th>Servidor / DNS Xtream</th>
+                      <th>Nome do Parceiro</th>
+                      <th style="width: 130px;">Status</th>
+                      <th style="width: 220px; text-align: right;">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody id="partnerships-table-body">
+                    <!-- Dinâmico -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </main>
+        </div>
+
+        <!-- Backdrop Mobile para gaveta lateral -->
+        <div id="hub-sidebar-backdrop" class="hub-sidebar-backdrop"></div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ===================================================================
+       MODAL: ADICIONAR / EDITAR PLAYLIST
+       =================================================================== -->
+  <div id="modal-playlist" class="modal-overlay">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modal-title">Adicionar Playlist</h3>
+        <button id="btn-close-modal" class="btn-close-modal">&times;</button>
+      </div>
+
+      <form id="modal-playlist-form">
+        <input type="hidden" id="playlist-edit-id" value="">
+
+        <div class="form-group">
+          <label>Nome da Playlist (Ex: NI1, Canais VIP, etc.)</label>
+          <input type="text" id="input-playlist-name" placeholder="Ex: Minha Lista" required>
+        </div>
+
+        <div class="list-type-tabs">
+          <button type="button" id="modal-tab-m3u" class="type-tab-btn active">Link M3U / M3U8</button>
+          <button type="button" id="modal-tab-xtream" class="type-tab-btn">Xtream Codes API</button>
+        </div>
+
+        <div id="modal-field-m3u" class="form-group">
+          <label>URL da Lista M3U</label>
+          <input type="url" id="input-playlist-url" placeholder="http://servidor.pro/get.php?username=...&type=m3u_plus">
+        </div>
+
+        <div id="modal-field-xtream" style="display: none;">
+          <div class="form-group">
+            <label>Servidor / Host</label>
+            <input type="text" id="input-modal-host" placeholder="http://servidor.com:8080">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Usuário</label>
+              <input type="text" id="input-modal-user" placeholder="Usuário">
+            </div>
+            <div class="form-group">
+              <label>Senha</label>
+              <input type="password" id="input-modal-pass" placeholder="Senha">
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" id="btn-cancel-modal" class="btn btn-secondary">Cancelar</button>
+          <button type="submit" class="btn btn-gold">Salvar Playlist</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       MODAL DO REVENDEDOR: ATIVAR DISPOSITIVO (Com dedução de crédito)
+       =================================================================== -->
+  <div id="modal-activate-device" class="modal-overlay">
+    <div class="modal-box" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3>Ativar Dispositivo</h3>
+        <button id="btn-close-activate-modal" class="btn-close-modal">&times;</button>
+      </div>
+
+      <form id="modal-activate-device-form">
+        <div class="form-group">
+          <label>Endereço MAC da TV / Aparelho</label>
+          <input type="text" id="input-activate-mac" placeholder="Ex: 68:C6:F2:FA:8F:DE" maxlength="17" required autocomplete="off">
+          <small style="color: var(--text-muted); font-size: 11px; margin-top: 4px; display: block;">Digite os 12 caracteres do MAC exibidos no Vion Player.</small>
+        </div>
+
+        <div class="form-group">
+          <label>Comentário / Nome do Cliente</label>
+          <input type="text" id="input-activate-comment" placeholder="Ex: João da Silva - Sala" required autocomplete="off">
+        </div>
+
+        <div class="form-group">
+          <label>Plano de Ativação</label>
+          <select id="select-activate-plan" class="reseller-select-input">
+            <option value="1year" data-cost="1" selected>📅 Licença 1 Ano (Consome 1 Crédito)</option>
+            <option value="lifetime" data-cost="2">⭐ Licença Vitalícia (Consome 2 Créditos)</option>
+          </select>
+        </div>
+
+        <div class="reseller-credit-notice-box">
+          <div style="display: flex; justify-content: space-between; font-size: 13px; margin-bottom: 4px;">
+            <span style="color: var(--text-muted);">Seu saldo atual:</span>
+            <strong style="color: var(--primary-gold);"><span id="notice-current-credits">50</span> Crédito(s)</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 13px;">
+            <span style="color: var(--text-muted);">Saldo após ativação:</span>
+            <strong style="color: var(--success);"><span id="notice-after-credits">49</span> Crédito(s)</strong>
+          </div>
+        </div>
+
+        <div id="activate-alert-box" class="alert-box"></div>
+
+        <div class="modal-footer">
+          <button type="button" id="btn-cancel-activate-modal" class="btn btn-secondary">Cancelar</button>
+          <button type="submit" id="btn-confirm-activate" class="btn btn-gold">Confirmar Ativação</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       MODAL DO REVENDEDOR: ADICIONAR SUB-REVENDA
+       =================================================================== -->
+  <div id="modal-add-sub" class="modal-overlay">
+    <div class="modal-box" style="max-width: 520px;">
+      <div class="modal-header">
+        <h3>Adicionar Sub-revenda</h3>
+        <button id="btn-close-sub-modal" class="btn-close-modal">&times;</button>
+      </div>
+
+      <form id="modal-add-sub-form">
+        <div class="form-group">
+          <label>Nome Completo do Parceiro</label>
+          <input type="text" id="input-sub-name" placeholder="Ex: Carlos Oliveira" required autocomplete="off">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>E-mail de Acesso</label>
+            <input type="email" id="input-sub-email" placeholder="carlos@exemplo.com" required autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label>Telefone / WhatsApp</label>
+            <input type="text" id="input-sub-phone" placeholder="(11) 98765-4321" required autocomplete="off">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Senha Provisória</label>
+            <input type="password" id="input-sub-pass" placeholder="Defina uma senha" required autocomplete="new-password">
+          </div>
+          <div class="form-group">
+            <label>Créditos Iniciais a Transferir</label>
+            <input type="number" id="input-sub-credits" min="0" max="1000" value="5" required>
+          </div>
+        </div>
+
+        <div class="reseller-credit-notice-box">
+          <span style="font-size: 12.5px; color: var(--text-muted);">
+            💡 Os créditos informados serão transferidos do seu saldo para a sub-revenda.
+          </span>
+        </div>
+
+        <div id="sub-alert-box" class="alert-box"></div>
+
+        <div class="modal-footer">
+          <button type="button" id="btn-cancel-sub-modal" class="btn btn-secondary">Cancelar</button>
+          <button type="submit" class="btn btn-gold">Criar Sub-revenda</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       MODAL DO REVENDEDOR: COMPRAR CRÉDITOS
+       =================================================================== -->
+  <div id="modal-buy-credits" class="modal-overlay">
+    <div class="modal-box" style="max-width: 580px;">
+      <div class="modal-header">
+        <h3>Comprar Créditos para Revenda</h3>
+        <button id="btn-close-buy-modal" class="btn-close-modal">&times;</button>
+      </div>
+
+      <div style="padding: 10px 0;">
+        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">
+          Adquira pacotes de créditos com preço de atacado e libere licenças na hora:
+        </p>
+
+        <div class="buy-credits-grid">
+          <div class="credit-pack-card" onclick="selectCreditPack(10, 150)">
+            <div class="pack-badge">Iniciante</div>
+            <h4>10 Créditos</h4>
+            <div class="pack-price">R$ 150,00</div>
+            <div class="pack-unit">R$ 15,00 / crédito</div>
+            <button type="button" class="btn btn-outline pack-btn">Comprar</button>
+          </div>
+
+          <div class="credit-pack-card featured" onclick="selectCreditPack(25, 300)">
+            <div class="pack-badge pack-badge-gold">Mais Vendido</div>
+            <h4>25 Créditos</h4>
+            <div class="pack-price">R$ 300,00</div>
+            <div class="pack-unit">R$ 12,00 / crédito</div>
+            <button type="button" class="btn btn-gold pack-btn">Comprar</button>
+          </div>
+
+          <div class="credit-pack-card" onclick="selectCreditPack(50, 500)">
+            <div class="pack-badge">Atacado</div>
+            <h4>50 Créditos</h4>
+            <div class="pack-price">R$ 500,00</div>
+            <div class="pack-unit">R$ 10,00 / crédito</div>
+            <button type="button" class="btn btn-outline pack-btn">Comprar</button>
+          </div>
+
+          <div class="credit-pack-card" onclick="selectCreditPack(100, 800)">
+            <div class="pack-badge">Master</div>
+            <h4>100 Créditos</h4>
+            <div class="pack-price">R$ 800,00</div>
+            <div class="pack-unit">R$ 8,00 / crédito</div>
+            <button type="button" class="btn btn-outline pack-btn">Comprar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       MODAL: ATIVAÇÃO DE DISPOSITIVO DIRETO VIA PIX MERCADO PAGO
+       =================================================================== -->
+  <div id="modal-pay-device" class="modal-overlay" style="display: none;">
+    <div class="modal-box" style="max-width: 500px;">
+      <!-- Dinâmico via JS -->
+    </div>
+  </div>
+
+  <!-- Botões Flutuantes de Contato -->
+  <div class="floating-contacts">
+    <a href="https://t.me/" target="_blank" class="floating-btn" title="Comunidade do Telegram">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/>
+      </svg>
+    </a>
+    <a href="https://wa.me/5514998539797?text=Ola%2C+preciso+de+suporte+no+Vion+Player" target="_blank" class="floating-btn" title="Suporte WhatsApp">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+      </svg>
+    </a>
+  </div>
+
+  <footer class="footer">
+    <p>© 2026 Vion Player. Todos os direitos reservados. O Vion Player é um software reprodutor de mídia e não fornece conteúdos próprios.</p>
+    <div style="margin-top: 10px; display: flex; justify-content: center; gap: 20px; font-size: 13px;">
+      <a href="privacy.html" style="color: #f59e0b; text-decoration: none;">Política de Privacidade & Termos de Uso</a>
+      <span style="color: #475569;">•</span>
+      <a href="#activation" style="color: #94a3b8; text-decoration: none;">Ativação de Dispositivo</a>
+      <span style="color: #475569;">•</span>
+      <a href="mailto:contato@vionplayer.app" style="color: #94a3b8; text-decoration: none;">Suporte</a>
+    </div>
+  </footer>
+
+  <script src="/portal/js/portal.js"></script>
+
+
+  <!-- ===================================================================
+       MODAL: EDITAR PERFIL DO REVENDEDOR
+       =================================================================== -->
+  <div id="modal-edit-profile" class="modal-overlay">
+    <div class="modal-box" style="max-width: 500px;">
+      <div class="modal-header">
+        <h3>Editar Perfil do Revendedor</h3>
+        <button id="btn-close-profile-modal" class="btn-close-modal">&times;</button>
+      </div>
+
+      <form id="form-edit-profile" style="padding-top: 10px;">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nome</label>
+            <input type="text" id="profile-first-name" required>
+          </div>
+          <div class="form-group">
+            <label>Sobrenome</label>
+            <input type="text" id="profile-last-name" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Nome da Empresa / Marca</label>
+          <input type="text" id="profile-company" required>
+        </div>
+
+        <div class="form-group">
+          <label>Telefone / WhatsApp</label>
+          <input type="text" id="profile-phone" required>
+        </div>
+
+        <div class="form-group">
+          <label>País</label>
+          <input type="text" id="profile-country" required>
+        </div>
+
+        <div id="profile-alert-box" class="alert-box"></div>
+
+        <div class="modal-footer">
+          <button type="button" id="btn-cancel-profile" class="btn btn-secondary">Cancelar</button>
+          <button type="submit" class="btn btn-gold">Salvar Alterações</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===================================================================
+       MODAL: COMPROVANTE DE ATIVAÇÃO PROFISSIONAL (WHATSAPP & RECIBO)
+       =================================================================== -->
+  <div id="modal-receipt" class="modal-overlay">
+    <div class="modal-box" style="max-width: 500px; padding: 0; overflow: hidden; border-radius: 16px; border: 1px solid rgba(245, 158, 11, 0.4); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+      
+      <!-- Cabeçalho do Recibo -->
+      <div style="background: linear-gradient(135deg, #0f172a, #1e293b); padding: 24px 28px; text-align: center; border-bottom: 2px solid rgba(245, 158, 11, 0.4); position: relative;">
+        <button type="button" id="btn-close-receipt-modal" class="btn-close-modal" style="position: absolute; right: 16px; top: 16px; color: #94a3b8; font-size: 26px; background: none; border: none; cursor: pointer;">&times;</button>
+        <img src="/portal/img/logo.png" alt="Vion Player" style="height: 48px; margin-bottom: 8px;">
+        <h3 style="font-size: 18px; color: #fff; margin: 0; font-weight: 800; letter-spacing: 0.5px;">COMPROVANTE DE ATIVAÇÃO</h3>
+        <p style="font-size: 12px; color: #94a3b8; margin: 4px 0 0 0;">Licença Oficial Vion Player</p>
+      </div>
+
+      <!-- Corpo do Recibo -->
+      <div style="padding: 24px 28px; background: #fff;">
+        <div style="display: flex; justify-content: center; margin-bottom: 18px;">
+          <span style="background: #dcfce7; color: #15803d; padding: 6px 16px; border-radius: 20px; font-weight: 800; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid #bbf7d0;">
+            <span>✅</span> LICENÇA ATIVADA COM SUCESSO
+          </span>
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 18px; margin-bottom: 20px;">
+          <div style="display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px dashed #e2e8f0; font-size: 13.5px;">
+            <span style="color: #64748b;">Dispositivo (MAC):</span>
+            <strong id="receipt-mac" style="font-family: monospace; color: #0284c7; font-size: 14px;">00:00:00:00:00:00</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px dashed #e2e8f0; font-size: 13.5px;">
+            <span style="color: #64748b;">Cliente / Aparelho:</span>
+            <strong id="receipt-client" style="color: #0f172a;">Cliente</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px dashed #e2e8f0; font-size: 13.5px;">
+            <span style="color: #64748b;">Plano Adquirido:</span>
+            <strong id="receipt-plan" style="color: #b45309;">1 Ano</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 1px dashed #e2e8f0; font-size: 13.5px;">
+            <span style="color: #64748b;">Validade da Licença:</span>
+            <strong id="receipt-expiry" style="color: #15803d;">05/10/2027</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 7px 0; font-size: 13.5px;">
+            <span style="color: #64748b;">Data da Ativação:</span>
+            <span id="receipt-date" style="color: #64748b; font-size: 12.5px;">05/10/2026 13:00</span>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+          <a id="btn-receipt-whatsapp" href="#" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: center; gap: 8px; background: #22c55e; color: #fff; text-decoration: none; padding: 12px 18px; border-radius: 8px; font-weight: 700; font-size: 14px; box-shadow: 0 4px 12px rgba(34,197,94,0.35);">
+            <span>💬</span> Enviar Comprovante no WhatsApp
+          </a>
+          <button type="button" id="btn-receipt-copy" class="btn btn-secondary" style="height: 42px; font-weight: 700; font-size: 13px;">
+            <span>📋</span> Copiar Texto do Comprovante
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

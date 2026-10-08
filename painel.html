@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Revenda - Vion Player</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            blue: '#3b82f6',
+                            dark: '#0a0e17',
+                            panel: '#111827'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0a0e17; color: #f3f4f6; }
+        .hidden-view { display: none !important; }
+    </style>
+</head>
+<body class="bg-brand-dark antialiased">
+
+    <!-- TELA DE LOGIN -->
+    <div id="login-view" class="min-h-screen flex items-center justify-center bg-brand-dark">
+        <div class="bg-brand-panel p-8 rounded-2xl shadow-2xl border border-gray-800 w-full max-w-md">
+            <div class="text-center mb-8">
+                <i class="fa-solid fa-play text-blue-500 text-4xl mb-3"></i>
+                <h2 class="text-2xl font-bold text-white">Vion Panel</h2>
+                <p class="text-gray-400 text-sm mt-1">Faça login para acessar sua conta</p>
+            </div>
+            <form id="form-login" class="space-y-5">
+                <div>
+                    <label class="block text-gray-400 text-sm mb-2">Usuário</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-user absolute left-3 top-3.5 text-gray-500"></i>
+                        <input type="text" id="login-usuario" class="w-full bg-gray-900 border border-gray-700 text-white rounded-lg py-3 pl-10 pr-4 focus:outline-none focus:border-blue-500" placeholder="Seu usuário" required>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-gray-400 text-sm mb-2">Senha</label>
+                    <div class="relative">
+                        <i class="fa-solid fa-lock absolute left-3 top-3.5 text-gray-500"></i>
+                        <input type="password" id="login-senha" class="w-full bg-gray-900 border border-gray-700 text-white rounded-lg py-3 pl-10 pr-4 focus:outline-none focus:border-blue-500" placeholder="••••••••" required>
+                    </div>
+                </div>
+                <div id="login-error" class="text-red-500 text-sm font-bold text-center hidden-view">
+                    Usuário ou senha incorretos!
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition-colors">
+                    Entrar no Painel
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- PAINEL PRINCIPAL -->
+    <div id="dashboard-view" class="hidden-view min-h-screen flex">
+        
+        <!-- Sidebar -->
+        <aside class="w-64 bg-brand-panel border-r border-gray-800 flex flex-col hidden md:flex">
+            <div class="h-24 flex flex-col items-center justify-center border-b border-gray-800">
+                <h1 class="text-xl font-bold text-white"><i class="fa-solid fa-play text-blue-500 mr-2"></i> Vion Panel</h1>
+                <span id="user-role-badge" class="mt-2 bg-gray-800 text-xs text-gray-300 px-2 py-0.5 rounded-full border border-gray-700 font-bold uppercase tracking-wide">Role</span>
+            </div>
+            <nav class="flex-1 p-4 space-y-2">
+                <button onclick="Painel.switchTab('clientes')" id="tab-clientes" class="w-full flex items-center text-left text-white bg-blue-600/10 text-blue-500 rounded-lg px-4 py-3 font-medium transition-colors">
+                    <i class="fa-solid fa-users w-6"></i> Clientes
+                </button>
+                <button onclick="Painel.switchTab('listas')" id="tab-listas" class="w-full flex items-center text-left text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg px-4 py-3 font-medium transition-colors">
+                    <i class="fa-solid fa-server w-6"></i> Listas & Servidores
+                </button>
+                <!-- Somente Admin e Revenda Master veem essa aba -->
+                <button onclick="Painel.switchTab('revendedores')" id="tab-revendedores" class="hidden-view w-full flex items-center text-left text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg px-4 py-3 font-medium transition-colors border border-transparent hover:border-gray-700">
+                    <i class="fa-solid fa-user-tie w-6"></i> Equipe / Revendas
+                </button>
+            </nav>
+            <div class="p-4 border-t border-gray-800">
+                <button onclick="Painel.logout()" class="w-full flex items-center text-left text-gray-400 hover:text-red-500 rounded-lg px-4 py-3 font-medium transition-colors">
+                    <i class="fa-solid fa-right-from-bracket w-6"></i> Sair
+                </button>
+            </div>
+        </aside>
+
+        <!-- Content -->
+        <main class="flex-1 flex flex-col h-screen overflow-hidden">
+            <!-- Topbar Mobile -->
+            <header class="h-16 bg-brand-panel border-b border-gray-800 flex items-center justify-between px-4 md:hidden">
+                <div class="text-lg font-bold text-white"><i class="fa-solid fa-play text-blue-500"></i> Vion</div>
+                <button onclick="Painel.logout()" class="text-gray-400"><i class="fa-solid fa-right-from-bracket"></i> Sair</button>
+            </header>
+
+            <div class="flex-1 overflow-y-auto p-6 lg:p-10">
+                
+                <!-- SESSÃO: CLIENTES -->
+                <div id="view-clientes">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-white mb-1">Gerenciar Clientes</h2>
+                            <p class="text-gray-400 text-sm">Controle de MACs e atribuição de listas</p>
+                        </div>
+                        <div class="flex gap-3">
+                            <button onclick="Painel.showModal('modal-acao-massa')" class="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors border border-gray-700 flex items-center gap-2">
+                                <i class="fa-solid fa-layer-group"></i> Ação em Massa
+                            </button>
+                            <button onclick="Painel.showModal('modal-add-cliente')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
+                                <i class="fa-solid fa-plus"></i> Novo Cliente
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-brand-panel rounded-xl border border-gray-800 overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm text-gray-400">
+                                <thead class="text-xs uppercase bg-gray-900/50 text-gray-300">
+                                    <tr>
+                                        <th scope="col" class="p-4 w-10">
+                                            <input type="checkbox" id="check-all" class="w-4 h-4 rounded bg-gray-700 border-gray-600 text-blue-600 focus:ring-blue-500" onchange="Painel.toggleAllChecks(this)">
+                                        </th>
+                                        <th scope="col" class="px-6 py-4 font-semibold">Endereço MAC</th>
+                                        <th scope="col" class="px-6 py-4 font-semibold">Nome</th>
+                                        <th scope="col" class="px-6 py-4 font-semibold">Lista Atribuída</th>
+                                        <th scope="col" class="px-6 py-4 font-semibold">Cadastrado por</th>
+                                        <th scope="col" class="px-6 py-4 font-semibold">Vencimento</th>
+                                        <th scope="col" class="px-6 py-4 text-right font-semibold">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabela-clientes-body" class="divide-y divide-gray-800">
+                                    <!-- Renderizado via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SESSÃO: LISTAS -->
+                <div id="view-listas" class="hidden-view">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-white mb-1">Rotas de Servidores</h2>
+                            <p class="text-gray-400 text-sm">Crie grupos e atualize o link de vários clientes de uma vez</p>
+                        </div>
+                        <button onclick="Painel.showModal('modal-add-lista')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
+                            <i class="fa-solid fa-plus"></i> Nova Lista
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" id="grid-listas">
+                        <!-- Renderizado via JS -->
+                    </div>
+                </div>
+
+                <!-- SESSÃO: REVENDEDORES (Master & Revenda Master) -->
+                <div id="view-revendedores" class="hidden-view">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-white mb-1">Gestão de Equipe / Revendas</h2>
+                            <p class="text-gray-400 text-sm" id="desc-revendedores">Gerencie os acessos do seu time.</p>
+                        </div>
+                        <button onclick="Painel.showModal('modal-add-revenda')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors flex items-center gap-2">
+                            <i class="fa-solid fa-user-plus"></i> Cadastrar Revenda
+                        </button>
+                    </div>
+
+                    <div class="bg-brand-panel rounded-xl border border-gray-800 overflow-hidden">
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-sm text-gray-400">
+                                <thead class="text-xs uppercase bg-gray-900/50 text-gray-300">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-4 font-semibold">Usuário (Login)</th>
+                                        <th scope="col" class="px-6 py-4 font-semibold">Nome da Revenda</th>
+                                        <th scope="col" class="px-6 py-4 font-semibold">Cargo / Nível</th>
+                                        <th scope="col" class="px-6 py-4 font-semibold">Clientes</th>
+                                        <th scope="col" class="px-6 py-4 font-semibold">Criado por</th>
+                                        <th scope="col" class="px-6 py-4 text-right font-semibold">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabela-revendedores-body" class="divide-y divide-gray-800">
+                                    <!-- Renderizado via JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL: ADD CLIENTE -->
+    <div id="modal-add-cliente" class="hidden-view fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+        <div class="bg-brand-panel border border-gray-800 rounded-2xl p-6 w-full max-w-md shadow-2xl relative">
+            <button onclick="Painel.hideModal('modal-add-cliente')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <h3 class="text-xl font-bold text-white mb-6">Cadastrar TV (Cliente)</h3>
+            <form id="form-add-cliente" class="space-y-4">
+                <div>
+                    <label class="block text-gray-400 text-sm mb-1">Endereço MAC</label>
+                    <input type="text" id="add-cli-mac" placeholder="00:1A:2B:3C:4D:5E" class="w-full bg-gray-900 border border-gray-700 text-white rounded-lg py-2.5 px-3 focus:outline-none focus:border-blue-500 uppercase" required maxlength="17">
+                </div>
+                <div>
+                    <label class="block text-gray-400 text-sm mb-1">Nome do Cliente / Observação</label>
+                    <input type="text" id="add-cli-nome" placeholder="Ex: João da Silva" class="w-full bg-gray-900 border border-gray-700 text-white rounded-lg py-2.5 px-3 focus:outline-none focus:border-blue-500" required>
+                </div>
+                <div>
+                    <label class="block text-gray-400 text-sm mb-1">Vincular à qual Lista/Servidor?</label>
+                    <select id="add-cli-lista" class="w-full bg-gray-900 border border-gray-700 text-white rounded-lg py-2.5 px-3 focus:outline-none focus:border-blue-500" required>
+                        <!-- Injetado via JS -->
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-400 text-sm mb-1">Data de Vencimento</label>
+                    <input type="date" id="add-cli-vencimento" class="w-full bg-gray-900 border border-gray-700 text-white rounded-lg py-2.5 px-3 focus:outline-none focus:border-blue-500" required>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg mt-4">Salvar Cliente</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD LISTA -->
+    <div id="modal-add-lista" class="hidden-view fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+        <div class="bg-brand-panel border border-gray-800 rounded-2xl p-6 w-full max-w-md shadow-2xl relative">
+            <button onclick="Painel.hideModal('modal-add-lista')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <h3 class="text-xl font-bold text-white mb-6">Criar Grupo de Lista</h3>
+            <p class="text-sm text-gray-400 mb-4">Os clientes vinculados a este grupo receberão o link abaixo na TV.</p>
+            <form id="form-add-lista" class="space-y-4">
+                <input type="hidden" id="edit-lista-id" value="">
+                <div>
+                    <label class="block text-gray-400 text-sm mb-1">Nome do Servidor/Grupo</label>
+                    <input type="text" id="add-lst-nome" placeholder="Ex: Servidor Premium A" class="w-full bg-gray-900 border border-gray-700 text-white rounded-lg py-2.5 px-3 focus:outline-none focus:border-blue-500" required>
+                </div>
+                <div>
+                    <label class="block text-gray-400 text-sm mb-1">Link M3U (Playlist)</label>
+                    <input type="url" id="add-lst-url" placeholder="http://dominio.com/get.php..." class="w-full bg-gray-900 border border-gray-700 text-white rounded-lg py-2.5 px-3 focus:outline-none focus:border-blue-500" required>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg mt-4">Salvar Grupo</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: AÇÃO EM MASSA -->
+    <div id="modal-acao-massa" class="hidden-view fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+        <div class="bg-brand-panel border border-gray-800 rounded-2xl p-6 w-full max-w-md shadow-2xl relative">
+            <button onclick="Painel.hideModal('modal-acao-massa')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <h3 class="text-xl font-bold text-white mb-2">Alterar Lista em Massa</h3>
+            
+            <div class="mb-4 bg-blue-900/20 text-blue-400 p-3 rounded-lg text-sm font-medium border border-blue-800/30">
+                <span id="massa-count">0</span> cliente(s) selecionado(s).
+            </div>
+
+            <form id="form-acao-massa" class="space-y-4">
+                <div>
+                    <label class="block text-gray-400 text-sm mb-1">Mover para a lista:</label>
+                    <select id="massa-lista-nova" class="w-full bg-gray-900 border border-gray-700 text-white rounded-lg py-2.5 px-3 focus:outline-none focus:border-blue-500" required>
+                        <!-- Injetado via JS -->
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg mt-4">Aplicar Troca</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD REVENDA -->
+    <div id="modal-add-revenda" class="hidden-view fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+        <div class="bg-brand-panel border border-gray-800 rounded-2xl p-6 w-full max-w-md shadow-2xl relative">
+            <button onclick="Painel.hideModal('modal-add-revenda')" class="absolute top-4 right-4 text-gray-400 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+            <h3 class="text-xl font-bold text-white mb-6">Cadastrar Membro da Equipe</h3>
+            <form id="form-add-revenda" class="space-y-4">
+                <div>
+                    <label class="block text-gray-400 text-sm mb-1">Qual o Cargo (Nível de Acesso)?</label>
+                    <select id="add-rev-role" class="w-full bg-gray-900 border border-gray-700 text-white rounded-lg py-2.5 px-3 focus:outline-none focus:border-blue-500" required>
+                        <!-- Preenchido via JS baseado em quem tá logado -->
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-400 text-sm mb-1">Usuário para Login</label>
+                    <input type="text" id="add-rev-user" placeholder="Ex: joao.revenda" class="w-full bg-gray-900 border border-gray-700 text-white rounded-lg py-2.5 px-3 focus:outline-none focus:border-blue-500" required>
+                </div>
+                <div>
+                    <label class="block text-gray-400 text-sm mb-1">Nome de Exibição</label>
+                    <input type="text" id="add-rev-nome" placeholder="Ex: João Imports" class="w-full bg-gray-900 border border-gray-700 text-white rounded-lg py-2.5 px-3 focus:outline-none focus:border-blue-500" required>
+                </div>
+                <div>
+                    <label class="block text-gray-400 text-sm mb-1">Senha de Acesso</label>
+                    <input type="text" id="add-rev-senha" class="w-full bg-gray-900 border border-gray-700 text-white rounded-lg py-2.5 px-3 focus:outline-none focus:border-blue-500" required>
+                </div>
+                <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg mt-4">Criar Conta</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Banco de Dados Firebase (Versão Compatível p/ arquivos locais) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    
+    <!-- Lógica do Painel -->
+    <script src="js/painel.js"></script>
+</body>
+</html>
