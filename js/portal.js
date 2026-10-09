@@ -887,7 +887,7 @@ function initPartnerRegistration() {
     const partnerTypes = ['reseller'];
 
     try {
-      const res = await fetch('/api/reseller/register', {
+      const res = await fetch(${PORTAL_API}/api/reseller/register, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -953,7 +953,7 @@ function initCinemaLogin() {
     }
 
     try {
-      const res = await fetch('/api/reseller/reset-password', {
+      const res = await fetch(${PORTAL_API}/api/reseller/reset-password, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: emailPrompt.trim(), newPassword: newPassPrompt.trim() })
@@ -984,7 +984,7 @@ function initCinemaLogin() {
     showAlert(alertBox, '🔄 Autenticando revendedor...', 'info');
 
     try {
-      const res = await fetch('/api/reseller/login', {
+      const res = await fetch(${PORTAL_API}/api/reseller/login, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username: user, password: pass })
@@ -1273,7 +1273,7 @@ async function openCheckoutView(amount, price) {
   let paymentData = null;
 
   try {
-    const res = await fetch('/api/payment/create-pix', {
+    const res = await fetch(${PORTAL_API}/api/payment/create-pix, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -1426,7 +1426,7 @@ async function openCheckoutView(amount, price) {
     const btn = document.getElementById('btn-simulate-pix-success');
     if (btn) btn.innerHTML = '⏳ Confirmando liberação...';
     try {
-      await fetch('/api/payment/simulate-approval', {
+      await fetch(${PORTAL_API}/api/payment/simulate-approval, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ paymentId })
@@ -1642,7 +1642,7 @@ window.openDevicePaymentModal = function(planType, price, planTitle) {
 
     let payData = null;
     try {
-      const res = await fetch('/api/payment/create-pix', {
+      const res = await fetch(${PORTAL_API}/api/payment/create-pix, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -1778,7 +1778,7 @@ window.openDevicePaymentModal = function(planType, price, planTitle) {
       const btn = document.getElementById('btn-simulate-device-pix-success');
       if (btn) btn.innerHTML = '⏳ Confirmando liberação...';
       try {
-        await fetch('/api/payment/simulate-approval', {
+        await fetch(${PORTAL_API}/api/payment/simulate-approval, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ paymentId })
@@ -1962,7 +1962,7 @@ async function renderHubSubs() {
             }
 
             try {
-              const resp = await fetch('/api/admin/reseller/adjust-credits', {
+              const resp = await fetch(${PORTAL_API}/api/admin/reseller/adjust-credits, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -2080,7 +2080,7 @@ function initActivateDeviceModal() {
 
     let serverSuccess = false;
     try {
-      const res = await fetch('/api/reseller/activate-device', {
+      const res = await fetch(${PORTAL_API}/api/reseller/activate-device, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: session.email, mac: normMac, comment, plan })
@@ -2304,7 +2304,7 @@ async function renderPortalPartnerships(filterText = '') {
     const btnToggle = tr.querySelector('.btn-partner-toggle-state');
     btnToggle?.addEventListener('click', async () => {
       try {
-        await fetch('/api/partnerships', {
+        await fetch(${PORTAL_API}/api/partnerships, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -2331,7 +2331,7 @@ async function renderPortalPartnerships(filterText = '') {
       }
 
       try {
-        await fetch('/api/partnerships', {
+        await fetch(${PORTAL_API}/api/partnerships, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -2374,7 +2374,7 @@ function initPartnershipsSection() {
     }
 
     try {
-      const res = await fetch('/api/partnerships', {
+      const res = await fetch(${PORTAL_API}/api/partnerships, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -2437,7 +2437,7 @@ function initMpAdminSettings() {
 
   async function loadMpStatus() {
     try {
-      const res = await fetch('/api/admin/settings');
+      const res = await fetch(${PORTAL_API}/api/admin/settings);
       const data = await res.json();
       if (data.configured) {
         if (badge) {
@@ -2470,7 +2470,7 @@ function initMpAdminSettings() {
     if (btn) btn.innerHTML = '⏳ Salvando...';
 
     try {
-      const res = await fetch('/api/admin/settings', {
+      const res = await fetch(${PORTAL_API}/api/admin/settings, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -2672,7 +2672,7 @@ function initNotificationSettings() {
 
         // Se o cliente tem token no cache mas o backend perdeu (ex: redeploy do Render), envia ao backend automaticamente
         if (finalToken && finalChatId && !data.telegramConfigured) {
-          fetch('/api/admin/settings', {
+          fetch(${PORTAL_API}/api/admin/settings, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'x-admin-email': MASTER_ADMIN_EMAIL },
             body: JSON.stringify({
@@ -2735,7 +2735,7 @@ function initNotificationSettings() {
     if (btnSave) btnSave.innerHTML = '<span>⏳</span> Salvando Configurações...';
 
     try {
-      const res = await fetch('/api/admin/settings', {
+      const res = await fetch(${PORTAL_API}/api/admin/settings, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-admin-email': MASTER_ADMIN_EMAIL },
         body: JSON.stringify(payload)
@@ -2757,7 +2757,7 @@ function initNotificationSettings() {
   btnTest?.addEventListener('click', async () => {
     btnTest.textContent = 'Enviando...';
     try {
-      const res = await fetch('/api/admin/notify-test', {
+      const res = await fetch(${PORTAL_API}/api/admin/notify-test, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'x-admin-email': MASTER_ADMIN_EMAIL },
         body: JSON.stringify({ adminEmail: MASTER_ADMIN_EMAIL })
